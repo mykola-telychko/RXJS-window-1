@@ -8,6 +8,12 @@ import { window, scan, mergeAll } from 'rxjs/operators';
 const srcInterval$ = timer(0, 1000);
 const example = srcInterval$.pipe(window(interval(3000)));
 const count = example.pipe(scan((acc, curr) => acc + 1, 0));
+
+const subscribe = count.subscribe((val) => console.log(`Window ${val}:`));
+const subscribeTwo = example
+  .pipe(mergeAll())
+  .subscribe((val) => console.log(val));
+
 /*
   "Window 1:"
   0
@@ -19,7 +25,3 @@ const count = example.pipe(scan((acc, curr) => acc + 1, 0));
   5
   ...
 */
-const subscribe = count.subscribe((val) => console.log(`Window ${val}:`));
-const subscribeTwo = example
-  .pipe(mergeAll())
-  .subscribe((val) => console.log(val));
